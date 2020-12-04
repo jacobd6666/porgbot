@@ -66,6 +66,20 @@ ahsoka tano (funcrum) \n10\nMk 7 Merr-Sonn Shield Generator\nMk 7 Nubian Securit
 ahsoka tano (funcrum) \n11\nMk 6 Merr-Sonn Thermal Detonator\nMk 9 Fabritech Data Pad\nMk 9 Fabritech Data Pad\nMk 8 BioTech Implant\nMk 9 BlasTech Weapon Mod\nMk 6 Arakyd Droid Caller
 ahsoka tano (funcrum) \n12\nMk 12 ArmaTek Multi-tool\nMk 12 ArmaTek Medpac\nMk 12 ArmaTek Bayonet\nMk 12 ArmaTek Key Pad\nMk 12 ArmaTek Holo Lens\nPower Cell Injector (Plasma) - Ahsoka Tano (Fulcrum)
 ----
+Amylin Holdo
+amilyn holdo \n1\nMk 1 BAW Armor Mod\nMk 1 BAW Armor Mod\nMk 1 Nubian Security Scanner\nMk 1 Nubian Security Scanner\nMk 1 BioTech Implant\nMk 1 BioTech Implant
+amilyn holdo \n2\nMk 2 Neuro-Saav Electrobinoculars\nMk 3 Fabritech Data Pad\nMk 2 TaggeCo Holo Lens\nMk 2 TaggeCo Holo Lens\nMk 2 SoroSuub Keypad\nMk 3 BAW Armor Mod
+amilyn holdo \n3\nMk 4 Fabritech Data Pad\nMk 4 BAW Armor Mod\nMk 4 BAW Armor Mod\nMk 2 A/KT Stun Gun\nMk 2 Nubian Security Scanner\nMk 3 BAW Armor Mod
+amilyn holdo \n4\nMk 6 BlasTech Weapon Mod\nMk 4 Fabritech Data Pad\nMk 4 Nubian Design Tech\nMk 3 Nubian Security Scanner\nMk 6 Loronar Power Cell\nMk 3 Merr-Sonn Shield Generator
+amilyn holdo \n5\nMk 4 A/KT Stun Gun\nMk 5 BioTech Implant\nMk 4 Loronar Power Cell\nMk 7 Fabritech Data Pad\nMk 4 SoroSuub Keypad\nMk 3 Merr-Sonn Shield Generator
+amilyn holdo \n6\n
+amilyn holdo \n7\n
+amilyn holdo \n8\n
+amilyn holdo \n9\n
+amilyn holdo \n10\n
+amilyn holdo \n11\n
+amilyn holdo \n12\n
+----
 Asajj Ventress
 asajj ventress \n1\nMK 1 BAW Armor Mod\nMK 1 BAW Armor Mod\nMK 1 Loronar Power Cell\nMK 1 Loronar Power Cell\nMK 1 Biotech Implant\nMK 1 Biotech Implant
 asajj ventress \n2\nMK 1 Loronar Power Cell\nMK 1 Merr-Sonn Shield Generator\nMK 2 BAW Armor Mod\nMK 2 Nubian Security Scanner\nMK 2 CEC Fusion Furnace\nMK 3 BAW Armor Mod
