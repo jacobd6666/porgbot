@@ -72,8 +72,8 @@ amilyn holdo \n2\nMk 2 Neuro-Saav Electrobinoculars\nMk 3 Fabritech Data Pad\nMk
 amilyn holdo \n3\nMk 4 Fabritech Data Pad\nMk 4 BAW Armor Mod\nMk 4 BAW Armor Mod\nMk 2 A/KT Stun Gun\nMk 2 Nubian Security Scanner\nMk 3 BAW Armor Mod
 amilyn holdo \n4\nMk 6 BlasTech Weapon Mod\nMk 4 Fabritech Data Pad\nMk 4 Nubian Design Tech\nMk 3 Nubian Security Scanner\nMk 6 Loronar Power Cell\nMk 3 Merr-Sonn Shield Generator
 amilyn holdo \n5\nMk 4 A/KT Stun Gun\nMk 5 BioTech Implant\nMk 4 Loronar Power Cell\nMk 7 Fabritech Data Pad\nMk 4 SoroSuub Keypad\nMk 3 Merr-Sonn Shield Generator
-amilyn holdo \n6\n
-amilyn holdo \n7\n
+amilyn holdo \n6\nMk 8 BlasTech Weapon Mod\nMk 4 SoroSuub Keypad\nMk 4 SoroSuub Keypad\nMk 4 SoroSuub Keypad\nMk 2 Athakam Medpac\nMk 4 BAW Armor Mod\nMk 3 BAW Armor Mod
+amilyn holdo \n7\nMk 3 Athakam Medpac\nMk 1 Zaltin Bacta Gel\nMk 7 TaggeCo Holo Lens\nMk 4 Nubian Design Tech\nMk 3 Chiewab Hypo Syringe\nMk 4 Nubian Design Tech
 amilyn holdo \n8\n
 amilyn holdo \n9\n
 amilyn holdo \n10\n
