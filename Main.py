@@ -33,7 +33,7 @@ async def chargear(ctx, tier, *charInput): #takes two arguments: One called tier
             await ctx.send(embed=embedVar) #once the loop is complete, send the embed in the same channel that the command was used in
         elif tier.lower() == "all": #if instead of a number, they say all
             print("All")
-            for i in range(1-13): #run AaylaGear for all tiers
+            for i in range(1,13): #run AaylaGear for all tiers
                 print(f"Tier {i}")
                 gearReturn = AaylaGear(i)
                 embedVar.add_field(name=f"Gear Tier {i}", value = gearReturn)
