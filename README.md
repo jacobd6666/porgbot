@@ -1,2 +1,2 @@
 # porgbot
-This is the Porg Bot. Do not touch unless you're myself or Jay
+This is the Porg Bot. Default ReadMe stuff I guess
