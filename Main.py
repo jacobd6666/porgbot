@@ -67,7 +67,7 @@ async def gearloc(ctx, *gearInput): #this time just one argument, the gear they'
 
     locations = ''
     for index, row in gear_data.iterrows():
-        locations += row['LOCATION'] + "\r"
+        locations += row['LOCATION'] + ","
     
     embedVar.add_field(name = 'Location', value = locations)
 
