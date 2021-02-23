@@ -1,3 +1,5 @@
+import pandas as pd
+import numpy as np
 def AaylaGear(tier): #self explanatory; take the function input, compare it to the list of options, then return a value
     if tier == 1:
         return "MK 1 TaggeCo Holo Lens\nMK 1 TaggeCo Holo Lens\nMK 1 Nubian Security Scanner\nMK 1 Loronar Power Cell\nMK 1 Neuro Saav Electrobinoculars\nMK 1 CEC Fusion Furnace"
@@ -23,3 +25,25 @@ def AaylaGear(tier): #self explanatory; take the function input, compare it to t
         return "MK 9 Fabritech Data Pad\nMK 6 Merr Sonn Thermal Detonator\nMK 8 TaggeCo Holo Lens\nMK 4 Sienar Holo Projector\nMk 9 Fabritech Data Pad\nMk 5 Chedak Comlink"
     elif tier == 12:
         return "Mk 12 ArmaTek Armor Plating\nMk 12 ArmaTek Multi-tool\nMk 12 ArmaTek Cybernetics\nMk 12 ArmaTek Holo Lens\nMk 12 ArmaTek Stun Gun\nPower Cell Injector (Plasma) - Aayla Secura"
+
+def join_gear_char(gear_csv, toon_csv):
+    gear = pd.read_csv(gear_csv)
+    names = pd.read_csv(toon_csv)    
+    # in case the name is itself so that way we do not need to include it in the nickname file
+    ident_names = [(i,i) for i in gear["TOON"].unique()]
+    ident_df = pd.DataFrame(ident_names, columns=["TOON", "NICKNAME"])
+    names = names.append(ident_df).reset_index(drop=True)
+    gear = gear.merge(names, on="TOON", how="inner")
+    return gear
+
+def find_gear(df, tier):
+    idx = df["LEVEL"] == tier
+    if np.sum(idx) == 0: # Check if gear tier is found
+        return f"No Gear found for Tier {tier}"
+    else:
+        toon = df[idx].iloc[0]
+        gear = ""
+        for key, value in toon.items():
+            if "GEARSLOT" in key: # We only want to use gear columns
+                gear += value.replace("-"," ").title() + "\n"
+    return gear

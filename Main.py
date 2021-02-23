@@ -6,6 +6,8 @@ from config import *
 from Gear_Find import *
 from Char_Gear import *
 
+import pandas as pd
+import numpy as np
 #initialize the bot
 bot = commands.Bot(command_prefix=prefix)
 
@@ -14,38 +16,33 @@ bot = commands.Bot(command_prefix=prefix)
 async def on_ready():
     print(f'Logged in as {bot.user}')
 
-
 @bot.command(name='chargear') #define the chargear command
 async def chargear(ctx, tier, *charInput): #takes two arguments: One called tier and one that will contain any number of words after the tier as charInput
-    char = ''.join(charInput).lower() #takes the character input, turns it into one string with no spaces, and makes it all lowercase
+    gear = join_gear_char("gear_levels.csv", "nicknames.csv")
+    char = '-'.join(charInput).lower() #takes the character input, turns it into one string with hypens instead of spaces, and makes it all lowercase
     print(char) #print to console for debugging purposes
-
-#check to see if the selected character is aayla. Because of the way we concatenate the input and make it all lowercase #it doesn't matter if they use first and last names, or if they capitalize it
-    if (char.count('aayla')>0):
-        embedVar = discord.Embed(title="Aayla Secura's gear", color=0x00ff00) #create an embed object
+    idx = gear["NICKNAME"] == char # List of bools where true is at an index when the condition is satisfied
+    if np.sum(idx) == 0: # No one is found
+        await ctx.send("Character name not recognized")
+    else:
+        toon_data = gear[idx]
+        print(toon_data)
+        embedVar = discord.Embed(title=f"{toon_data.iloc[0]['TOON'].replace('-',' ').title() }'s gear", color=0x00ff00)#create an embed object
         if (tier.count('-')==1): #check to see if the given tier includes a hyphen to denote a range of tiers
             x = tier.split('-') #if so, split it into the two values given
             first = int(x[0]) #isolate the first value
             last = int(x[1]) + 1 #isolate the second. Increasing it by one proved to be necessary for the function to work as expected
-            for i in range(first, last): #for the range of the two supplied numbers
-                gearReturn = AaylaGear(i) #run AaylaGear() for each number
-                embedVar.add_field(name=f"Gear Tier {i}", value = gearReturn) #add a field to the embed with the contents of that gear tier
-            await ctx.send(embed=embedVar) #once the loop is complete, send the embed in the same channel that the command was used in
-        elif tier.lower() == "all": #if instead of a number, they say all
-            print("All")
-            for i in range(1,13): #run AaylaGear for all tiers
-                print(f"Tier {i}")
-                gearReturn = AaylaGear(i)
-                embedVar.add_field(name=f"Gear Tier {i}", value = gearReturn)
-            await ctx.send(embed=embedVar)
-        else: #if they just gave a single number
-            tier_int = int(tier) #typecast it to integer
-            gearReturn = AaylaGear(tier_int)
-            embedVar.add_field(name=f"Gear Tier {tier_int}", value = gearReturn)
-            await ctx.send(embed=embedVar)
-    else: #if none of the characters in the program match what was input
-        await ctx.send("Character name not recognized")
-
+        elif tier.lower() == "all":
+            first = 1
+            last = 13
+        else:
+            first = int(tier)
+            last = first + 1
+        for i in range(first, last): #for the range of the two supplied numbers
+            gearReturn = find_gear(toon_data, i) #get gear for every tier 
+            embedVar.add_field(name=f"Gear Tier {i}", value = gearReturn) #add a field to the embed with the contents of that gear tier
+        await ctx.send(embed=embedVar) #once the loop is complete, send the embed in the same channel that the command was used in
+        
 @bot.command(name='gearsearch')
 async def gearsearch(ctx, *gearInput): #this time just one argument, the gear they're after. The * before it means that any number of words in the message after the command will be taken as input
     gear = ''.join(charInput).lower() #concatenate and make lowercase
