@@ -18,7 +18,7 @@ async def on_ready():
 def generateAssignments(assignemnts):
     TWembed = discord.Embed(title = "Assignments - React to this when you have filled your assignments", color = 0x2F3136)
     for name, value in assignments.items():
-        TWembed.add_field(name = f"{name}: {'✅' if value['assigned'] else '❌'}", value = value["teams"])
+        TWembed.add_field(name = f"{name}: {'✅' if value['assigned'] else '❌'}", value = value["teams"], inline = False)
     return TWembed
 @bot.command(name='TWStart')
 @commands.has_role(730466266896269406) #checks if the user has the Porg Lords Member role. If not, the command doesn't run
