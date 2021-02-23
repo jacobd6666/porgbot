@@ -44,9 +44,26 @@ async def on_raw_reaction_add(payload):
             for name, value in assignments.items():
                 if payload.user_id == value["discord_id"]:
                     value["assigned"] = True
-                    print(f'{payload.member.name} confirmed they deployed assignments.')
+                    print(f'{await bot.fetch_user(payload.user_id)} confirmed they deployed assignments.')
                     break
             TWembed = generateAssignments(assignments)
             await AssignMessage.edit(embed = TWembed)
 
+async def on_raw_reaction_remove(payload):
+    global AssignMessage
+    global assignments
+
+    #make sure there actually is a message with assignments
+    if AssignMessage != None:
+        #check if the message that got reacted to was the message with assignments
+        if payload.message_id == AssignMessage.id:
+            #check which user with assignments reacted
+            for name, value in assignments.items():
+                if payload.user_id == value["discord_id"]:
+                    value["assigned"] = False
+                    print(f'{await bot.fetch_user(payload.user_id)} un-confirmed they deployed assignments.')
+                    break
+            TWembed = generateAssignments(assignments)
+            await AssignMessage.edit(embed = TWembed)
+                          
 bot.run(Token)
