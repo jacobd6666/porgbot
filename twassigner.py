@@ -17,7 +17,7 @@ async def on_ready():
 
 def generateAssignments(assignemnts):
     TWembed = discord.Embed(title = "Assignments - React to this when you have filled your assignments", color = 0x2F3136)
-    for name, value in assignments:
+    for name, value in assignments.items():
         TWembed.add_field(name = f"{name}: {'✅' if value['assigned'] else '❌'}", value = value["teams"])
     return TWembed
 @bot.command(name='TWStart')
@@ -41,7 +41,7 @@ async def on_raw_reaction_add(payload):
         #check if the message that got reacted to was the message with assignments
         if payload.message_id == AssignMessage.id:
             #check which user with assignments reacted
-            for name, value in assignments:
+            for name, value in assignments.items():
                 if payload.user_id == value["discord_id"]:
                     value["assigned"] = True
                     print(f'{payload.member.name} confirmed they deployed assignments.')
