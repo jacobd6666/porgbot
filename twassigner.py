@@ -1,12 +1,12 @@
 import discord
 from discord.ext import commands
 from config import *
+import json
 
 intents = discord.Intents.default()
 intents.members = True
 intents.messages = True
 bot = commands.Bot(command_prefix = prefix, intents=intents)
-
 
 @bot.event
 async def on_ready():
