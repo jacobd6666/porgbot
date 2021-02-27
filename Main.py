@@ -129,4 +129,15 @@ async def on_raw_reaction_remove(payload):
             TWembed = generateAssignments(assignments)
             await AssignMessage.edit(embed = TWembed)
 
+@bot.command(name = 'dm')
+@commands.has_role(730466266896269406) #can only be used by someone with the porg lords officer role
+async def dm(ctx, message, *people): #if you type something in quotes when you run a command, it treats the entire quote as a single argument
+    for i in people: #for each person you name
+        person = ctx.guild.get_member_named(i) #turn their name into a user object
+        if person == None: #if that member wasn't found
+            await ctx.send(f"Member {i} not found")
+        else:
+            await person.send(message) #dm the message to that person
+            print(f"DM sent to {person.name}") #for debugging
+
 bot.run(Token) #start the bot
