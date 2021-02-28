@@ -1,6 +1,7 @@
 #importing dependencies
 import discord
 from discord.ext import commands
+from discord.utils import get
 import json
 #importing other functions
 from config import *
@@ -139,5 +140,11 @@ async def dm(ctx, message, *people): #if you type something in quotes when you r
         else:
             await person.send(message) #dm the message to that person
             print(f"DM sent to {person.name}") #for debugging
+
+#sends a copy of whatever the user types to the questions channel
+@bot.command(name = "question")
+async def question(ctx, *, text : str):
+    destination = bot.get_channel(815619171362275329)
+    await destination.send(f"From {ctx.author.name}: {text}")
 
 bot.run(Token) #start the bot
