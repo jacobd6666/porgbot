@@ -84,7 +84,7 @@ def generateAssignments(assignemnts):
     for name, value in assignments.items():
         TWembed.add_field(name = f"{name}: {'✅' if value['assigned'] else '❌'}", value = value["teams"], inline = False)
     return TWembed
-@bot.command(name='TWStart')
+@bot.command(name='twstart')
 @commands.has_role(730466266896269406) #checks if the user has the Porg Lords Member role. If not, the command doesn't run
 async def test(ctx):
     global assignments
@@ -139,6 +139,7 @@ async def dm(ctx, message, *people): #if you type something in quotes when you r
             await ctx.send(f"Member {i} not found")
         else:
             await person.send(message) #dm the message to that person
+            await ctx.send(f"DM sent to {person.name}")
             print(f"DM sent to {person.name}") #for debugging
 
 #sends a copy of whatever the user types to the questions channel
