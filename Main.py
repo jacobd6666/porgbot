@@ -1,6 +1,7 @@
 #importing dependencies
 import discord
 from discord.ext import commands
+from discord.utils import get
 import json
 
 #importing other functions
@@ -94,7 +95,8 @@ def generateAssignments(assignemnts):
     for name, value in assignments.items():
         TWembed.add_field(name = f"{name}: {'✅' if value['assigned'] else '❌'}", value = value["teams"], inline = False)
     return TWembed
-@bot.command(name='TWStart', help='show the TW assignment list', category = 'Assignments')
+
+@bot.command(name='twstart', help='show the TW assignment list', category = 'Assignments')
 @commands.has_role(730466266896269406) #checks if the user has the Porg Lords Member role. If not, the command doesn't run
 
 async def test(ctx):
@@ -140,5 +142,23 @@ async def on_raw_reaction_remove(payload):
                     break
             TWembed = generateAssignments(assignments)
             await AssignMessage.edit(embed = TWembed)
+
+@bot.command(name = 'dm')
+@commands.has_role(730466266896269406) #can only be used by someone with the porg lords officer role
+async def dm(ctx, message, *people): #if you type something in quotes when you run a command, it treats the entire quote as a single argument
+    for i in people: #for each person you name
+        person = ctx.guild.get_member_named(i) #turn their name into a user object
+        if person == None: #if that member wasn't found
+            await ctx.send(f"Member {i} not found")
+        else:
+            await person.send(message) #dm the message to that person
+            await ctx.send(f"DM sent to {person.name}")
+            print(f"DM sent to {person.name}") #for debugging
+
+#sends a copy of whatever the user types to the questions channel
+@bot.command(name = "question")
+async def question(ctx, *, text : str):
+    destination = bot.get_channel(815619171362275329)
+    await destination.send(f"From {ctx.author.name}: {text}")
 
 bot.run(Token) #start the bot
