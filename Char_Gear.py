@@ -2,8 +2,10 @@ import pandas as pd
 import numpy as np
 
 def join_gear_char(gear_csv, toon_csv):
+
     gear = pd.read_csv(gear_csv)
     names = pd.read_csv(toon_csv)    
+    
     # in case the name is itself so that way we do not need to include it in the nickname file
     ident_names = [(i,i) for i in gear["TOON"].unique()]
     ident_df = pd.DataFrame(ident_names, columns=["TOON", "NICKNAME"])
