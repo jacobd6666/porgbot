@@ -86,10 +86,6 @@ async def gearloc(ctx, *gearInput): #this time just one argument, the gear they'
 
     await ctx.send(embed=embedVar) #just return the name of teh gear they input. This command has not been started on
 
-@bot.command(name='HelloWorld')
-async def HelloWorld(ctx):
-    await ctx.send(embed=sayHelloAgain())
-
 def generateAssignments(assignemnts):
     TWembed = discord.Embed(title = "Assignments - React to this when you have filled your assignments", color = 0x2F3136)
     for name, value in assignments.items():
@@ -98,7 +94,6 @@ def generateAssignments(assignemnts):
 
 @bot.command(name='twstart', help='show the TW assignment list', category = 'Assignments')
 @commands.has_role(730466266896269406) #checks if the user has the Porg Lords Member role. If not, the command doesn't run
-
 async def test(ctx):
     global assignments
     global AssignMessage
