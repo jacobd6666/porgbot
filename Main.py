@@ -79,9 +79,9 @@ async def gearloc(ctx, *gearInput): #this time just one argument, the gear they'
 
     locations = ''
     for index, row in gear_data.iterrows():
-        locations += row['LOCATION'] + ","
+        locations += row['LOCATION'] + "\n"
     
-    embedVar.add_field(name = 'Location', value = locations)
+    embedVar.add_field(name = 'Locations', value = locations)
 
     await ctx.send(embed=embedVar) #just return the name of teh gear they input. This command has not been started on
 
