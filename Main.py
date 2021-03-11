@@ -8,7 +8,6 @@ import json
 from config import *
 from Gear_Find import *
 from Char_Gear import *
-from GG00 import *
 
 import pandas as pd
 import numpy as np
