@@ -26,6 +26,7 @@ bastila-shan,shan
 bastila-shan,bs
 bastila-shan-fallen,bastila-fallen
 bastila-shan-fallen,bsf
+bastila-shan-fallen,badstila
 baze-malbus,baze
 baze-malbus,malbus
 bb-8,bb
@@ -49,6 +50,10 @@ captain-han-solo,captian-han
 captain-han-solo,captain-solo
 captain-han-solo,cpt-han
 captain-han-solo,cpt-solo
+captain-han-solo,chs
+captain-han-solo,cholo
+captain-han-solo,fuzzy-han
+captain-han-solo,snowy-han
 captain-phasma,phasma
 cara-dune,cara
 cara-dune,dune
@@ -66,6 +71,7 @@ chirrut-imwe,imwe
 chopper,chop
 clone-sergeant-phase-i,clone-sergeant
 clone-sergeant-phase-i,clone-sarge
+clone-sergeant-phase-i,sarge
 clone-wars-chewbacca,clone-wars-chewie
 colonel-starck,starck
 commander-luke-skywalker,cls
@@ -133,6 +139,8 @@ general-kenobi,gk
 general-skywalker,gas
 general-skywalker,general-anakin-skywalker
 general-skywalker,general-anakin
+general-skywalker,gs
+general-skywalker,g$
 general-veers,veers
 geonosian-brood-alpha,gba
 geonosian-brood-alpha,brood-alpha
@@ -212,6 +220,8 @@ lando-calrissian,calrissian
 lobot,placeholder
 logray,placeholder
 luke-skywalker-farmboy,farmboy-luke
+luke-skywalker-farmboy,farmboy
+luke-skywalker-farmboy,lsf
 luminara-unduli,luminara
 luminara-unduli,unduli
 mace-windu,mace
@@ -226,12 +236,18 @@ mother-talzin,talzin
 mother-talzin,mt
 nightsister-acolyte,ns-acolyte
 nightsister-acolyte,nsacolyte
+nightsister-acolyte,acolyte
+nightsister-acolyte,aco
 nightsister-initiate,ns-initiate
 nightsister-initiate,nsinitiate
+nightsister-initiate,initiate
 nightsister-spirit,ns-spirit
 nightsister-spirit,nsspirit
+nightsister-spirit,spirit
 nightsister-zombie,ns-zombie
 nightsister-zombie,nszombie
+nightsister-zombie,zombie
+nightsister-zombie,nsz
 nute-gunray,nute
 nute-gunray,gunray
 obi-wan-kenobi-old-ben,old-ben
