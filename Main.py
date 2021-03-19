@@ -16,7 +16,7 @@ import numpy as np
 intents = discord.Intents.default()
 intents.members = True
 intents.messages = True
-bot = commands.Bot(command_prefix = prefix, intents=intents)
+bot = commands.Bot(command_prefix = commands.when_mentioned_or(prefix), intents=intents)
 
 #Do this when the bot runsclear
 @bot.event
