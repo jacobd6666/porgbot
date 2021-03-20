@@ -18,7 +18,7 @@ intents.members = True
 intents.messages = True
 bot = commands.Bot(command_prefix = commands.when_mentioned_or(prefix), intents=intents)
 
-#Do this when the bot runsclear
+#Do this when the bot runs
 @bot.event
 async def on_ready():
     print(f'Logged in as {bot.user}')
@@ -72,7 +72,7 @@ async def gearloc(ctx, *gearInput): #this time just one argument, the gear they'
         await ctx.send("Character name not recognized")
     else:
         gear_data = gearloc[idx]
-        embedVar = discord.Embed(title=f"{gear_data.iloc[0]['NICKNAME'].replace('-',' ').title() } farmable locations", color=0x00ff00)#create an embed object
+        embedVar = discord.Embed(title=f"{gear_data.iloc[0]['NICKNAME'].replace('-',' ').title() } farmable locations", color=0x00ff00) #create an embed object
         
         #print(idx)
         print(gear_data)
@@ -83,7 +83,7 @@ async def gearloc(ctx, *gearInput): #this time just one argument, the gear they'
     
     embedVar.add_field(name = 'Locations', value = locations)
 
-    await ctx.send(embed=embedVar) #just return the name of teh gear they input. This command has not been started on
+    await ctx.send(embed=embedVar) 
 
 def generateAssignments(assignemnts):
     TWembed = discord.Embed(title = "Assignments - React to this when you have filled your assignments", color = 0x2F3136)
@@ -92,7 +92,7 @@ def generateAssignments(assignemnts):
     return TWembed
 
 @bot.command(name='twstart', help='show the TW assignment list', category = 'Assignments')
-@commands.has_role(730466266896269406) #checks if the user has the Porg Lords Member role. If not, the command doesn't run
+@commands.has_role(730466266896269406) #checks if the user has the Porg Lords Officer role. If not, the command doesn't run
 async def test(ctx):
     global assignments
     global AssignMessage
@@ -146,7 +146,7 @@ async def dm(ctx, message, *people): #if you type something in quotes when you r
             await ctx.send(f"Member {i} not found")
         else:
             await person.send(message) #dm the message to that person
-            await ctx.send(f"DM sent to {person.name}")
+            await ctx.send(f"DM sent to {person.name}") 
             print(f"DM sent to {person.name}") #for debugging
 
 #sends a copy of whatever the user types to the questions channel
