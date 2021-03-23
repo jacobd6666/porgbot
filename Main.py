@@ -98,7 +98,7 @@ def count_assignments(assignments):
     return counter
 
 @bot.command(name='twstart', help='show the TW assignment list', category = 'Assignments')
-# @commands.has_role(730466266896269406) #checks if the user has the Porg Lords Officer role. If not, the command doesn't run
+@commands.has_any_role("Porg Lords Officer", "Master Codebreaker") #checks if the user has the Porg Lords Officer role or Master Codebreaker. If not, the command doesn't run
 async def twstart(ctx, *teams):
     global assignments
     global AssignMessage
