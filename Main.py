@@ -11,6 +11,7 @@ from Char_Gear import *
 
 import pandas as pd
 import numpy as np
+from collections import Counter
 
 #initialize the bot
 intents = discord.Intents.default()
@@ -25,7 +26,7 @@ async def on_ready():
 
 @bot.command(name='version')
 async def version(ctx):
-    await ctx.send("TEST 0.0.0.1 - Running from GuruGuy's RaspPi")
+    await ctx.send(f"{version} - Running from {user}")
 
 @bot.command(name='chargear', help='Get the gear need for each level', category = 'Search') #define the chargear command
 async def chargear(ctx, tier, *charInput): #takes two arguments: One called tier and one that will contain any number of words after the tier as charInput
@@ -41,8 +42,6 @@ async def chargear(ctx, tier, *charInput): #takes two arguments: One called tier
         toon_data = gear[idx]
         print(toon_data)
         embedVar = discord.Embed(title=f"{toon_data.iloc[0]['TOON'].replace('-',' ').title() }'s gear", color=0x00ff00)#create an embed object
-
-        
         if (tier.count('-')==1): #check to see if the given tier includes a hyphen to denote a range of tiers
             x = tier.split('-') #if so, split it into the two values given
             first = int(x[0]) #isolate the first value
@@ -53,7 +52,6 @@ async def chargear(ctx, tier, *charInput): #takes two arguments: One called tier
         else:
             first = int(tier)
             last = first + 1
-
         for i in range(first, last): #for the range of the two supplied numbers
             gearReturn = find_gear(toon_data, i) #get gear for every tier 
             embedVar.add_field(name=f"Gear Tier {i}", value = gearReturn) #add a field to the embed with the contents of that gear tier
@@ -67,35 +65,48 @@ async def gearloc(ctx, *gearInput): #this time just one argument, the gear they'
     gearName = '-'.join(gearInput).lower()
     print(gearName)
     idx = gearloc["NICKNAME"] == gearName
-
     if np.sum(idx) == 0: # No one is found
         await ctx.send("Character name not recognized")
     else:
         gear_data = gearloc[idx]
         embedVar = discord.Embed(title=f"{gear_data.iloc[0]['NICKNAME'].replace('-',' ').title() } farmable locations", color=0x00ff00) #create an embed object
-        
-        #print(idx)
         print(gear_data)
-
     locations = ''
     for index, row in gear_data.iterrows():
         locations += row['LOCATION'] + "\n"
-    
     embedVar.add_field(name = 'Locations', value = locations)
-
     await ctx.send(embed=embedVar) 
 
-def generateAssignments(assignemnts):
+def generateAssignments(assignments):
     TWembed = discord.Embed(title = "Assignments - React to this when you have filled your assignments", color = 0x2F3136)
-    for name, value in assignments.items():
-        TWembed.add_field(name = f"{name}: {'✅' if value['assigned'] else '❌'}", value = value["teams"], inline = False)
+    counts = count_assignments(assignments)
+    zones = ["1A", "1B", "2B"]
+    for zone in zones:
+        TWembed.add_field(name = "-"*25 + zone + "-"*25 , value = f"Open if there are less than {max_teams-counts[zone]} teams placed", inline = False)
+        for name, value in assignments.items():
+            teams = value["teams"]
+            if zone in teams:
+                TWembed.add_field(name = f"{name}: {'✅' if value['assigned'] else '❌'}", value = ", ".join(teams[zone]), inline = False)
     return TWembed
 
+def count_assignments(assignments):
+    counter = Counter()
+    for _, value in assignments.items(): 
+        if not value["assigned"]:
+            for zone, teams in value["teams"].items():
+                counter[zone] += len(teams)
+    return counter
+
 @bot.command(name='twstart', help='show the TW assignment list', category = 'Assignments')
-@commands.has_role(730466266896269406) #checks if the user has the Porg Lords Officer role. If not, the command doesn't run
-async def test(ctx):
+# @commands.has_role(730466266896269406) #checks if the user has the Porg Lords Officer role. If not, the command doesn't run
+async def twstart(ctx, *teams):
     global assignments
     global AssignMessage
+    global max_teams
+    if teams:
+        max_teams = int(teams[0])
+    else:
+        max_teams = 22
     with open("assignments.json", "r") as fp:
         global assignments 
         assignments = json.load(fp)
@@ -106,7 +117,6 @@ async def test(ctx):
 async def on_raw_reaction_add(payload):
     global AssignMessage
     global assignments
-
     #make sure there actually is a message with assignments
     if AssignMessage != None:
         #check if the message that got reacted to was the message with assignments
@@ -116,14 +126,12 @@ async def on_raw_reaction_add(payload):
                 if payload.user_id == value["discord_id"]:
                     value["assigned"] = True
                     print(f'{await bot.fetch_user(payload.user_id)} confirmed they deployed assignments.')
-                    break
             TWembed = generateAssignments(assignments)
             await AssignMessage.edit(embed = TWembed)
-
+@bot.event
 async def on_raw_reaction_remove(payload):
     global AssignMessage
     global assignments
-
     #make sure there actually is a message with assignments
     if AssignMessage != None:
         #check if the message that got reacted to was the message with assignments
@@ -133,7 +141,6 @@ async def on_raw_reaction_remove(payload):
                 if payload.user_id == value["discord_id"]:
                     value["assigned"] = False
                     print(f'{await bot.fetch_user(payload.user_id)} un-confirmed they deployed assignments.')
-                    break
             TWembed = generateAssignments(assignments)
             await AssignMessage.edit(embed = TWembed)
 
