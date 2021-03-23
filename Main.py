@@ -100,16 +100,24 @@ def count_assignments(assignments):
 @bot.command(name='twstart', help='show the TW assignment list', category = 'Assignments')
 @commands.has_any_role("Porg Lords Officer", "Master Codebreaker") #checks if the user has the Porg Lords Officer role or Master Codebreaker. If not, the command doesn't run
 async def twstart(ctx, *teams):
+
     global assignments
     global AssignMessage
     global max_teams
-    if teams:
-        max_teams = int(teams[0])
+    if len(args) > 0:
+        max_teams = int(args[0])
     else:
         max_teams = 22
-    with open("assignments.json", "r") as fp:
-        global assignments 
-        assignments = json.load(fp)
+    if len(args) > 1:
+        try:
+            with open("DATA/tw-state.json", "r") as fp:
+                assignments = json.load(fp)
+        except:
+            with open("DATA/assignments.json", "r") as fp:
+                assignments = json.load(fp)
+    else:
+        with open("DATA/assignments.json", "r") as fp:
+            assignments = json.load(fp)
     TWembed = generateAssignments(assignments)
     AssignMessage = await ctx.send(embed = TWembed)
     
@@ -127,7 +135,10 @@ async def on_raw_reaction_add(payload):
                     value["assigned"] = True
                     print(f'{await bot.fetch_user(payload.user_id)} confirmed they deployed assignments.')
             TWembed = generateAssignments(assignments)
+            with open("DATA/tw-state.json", "w") as fp:
+                json.dump(assignments, fp)
             await AssignMessage.edit(embed = TWembed)
+
 @bot.event
 async def on_raw_reaction_remove(payload):
     global AssignMessage
@@ -142,6 +153,8 @@ async def on_raw_reaction_remove(payload):
                     value["assigned"] = False
                     print(f'{await bot.fetch_user(payload.user_id)} un-confirmed they deployed assignments.')
             TWembed = generateAssignments(assignments)
+            with open("DATA/tw-state.json", "w") as fp:
+                json.dump(assignments, fp)
             await AssignMessage.edit(embed = TWembed)
 
 @bot.command(name = 'dm')
