@@ -42,8 +42,6 @@ async def chargear(ctx, tier, *charInput): #takes two arguments: One called tier
         toon_data = gear[idx]
         print(toon_data)
         embedVar = discord.Embed(title=f"{toon_data.iloc[0]['TOON'].replace('-',' ').title() }'s gear", color=0x00ff00)#create an embed object
-
-        
         if (tier.count('-')==1): #check to see if the given tier includes a hyphen to denote a range of tiers
             x = tier.split('-') #if so, split it into the two values given
             first = int(x[0]) #isolate the first value
@@ -54,7 +52,6 @@ async def chargear(ctx, tier, *charInput): #takes two arguments: One called tier
         else:
             first = int(tier)
             last = first + 1
-
         for i in range(first, last): #for the range of the two supplied numbers
             gearReturn = find_gear(toon_data, i) #get gear for every tier 
             embedVar.add_field(name=f"Gear Tier {i}", value = gearReturn) #add a field to the embed with the contents of that gear tier
@@ -68,22 +65,16 @@ async def gearloc(ctx, *gearInput): #this time just one argument, the gear they'
     gearName = '-'.join(gearInput).lower()
     print(gearName)
     idx = gearloc["NICKNAME"] == gearName
-
     if np.sum(idx) == 0: # No one is found
         await ctx.send("Character name not recognized")
     else:
         gear_data = gearloc[idx]
         embedVar = discord.Embed(title=f"{gear_data.iloc[0]['NICKNAME'].replace('-',' ').title() } farmable locations", color=0x00ff00) #create an embed object
-        
-        #print(idx)
         print(gear_data)
-
     locations = ''
     for index, row in gear_data.iterrows():
         locations += row['LOCATION'] + "\n"
-    
     embedVar.add_field(name = 'Locations', value = locations)
-
     await ctx.send(embed=embedVar) 
 
 def generateAssignments(assignments):
@@ -96,7 +87,6 @@ def generateAssignments(assignments):
             teams = value["teams"]
             if zone in teams:
                 TWembed.add_field(name = f"{name}: {'✅' if value['assigned'] else '❌'}", value = ", ".join(teams[zone]), inline = False)
-
     return TWembed
 
 def count_assignments(assignments):
@@ -127,7 +117,6 @@ async def twstart(ctx, *teams):
 async def on_raw_reaction_add(payload):
     global AssignMessage
     global assignments
-
     #make sure there actually is a message with assignments
     if AssignMessage != None:
         #check if the message that got reacted to was the message with assignments
@@ -144,7 +133,6 @@ async def on_raw_reaction_add(payload):
 async def on_raw_reaction_remove(payload):
     global AssignMessage
     global assignments
-
     #make sure there actually is a message with assignments
     if AssignMessage != None:
         #check if the message that got reacted to was the message with assignments
