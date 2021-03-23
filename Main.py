@@ -126,7 +126,6 @@ async def on_raw_reaction_add(payload):
                 if payload.user_id == value["discord_id"]:
                     value["assigned"] = True
                     print(f'{await bot.fetch_user(payload.user_id)} confirmed they deployed assignments.')
-                    break
             TWembed = generateAssignments(assignments)
             await AssignMessage.edit(embed = TWembed)
 @bot.event
@@ -142,7 +141,6 @@ async def on_raw_reaction_remove(payload):
                 if payload.user_id == value["discord_id"]:
                     value["assigned"] = False
                     print(f'{await bot.fetch_user(payload.user_id)} un-confirmed they deployed assignments.')
-                    break
             TWembed = generateAssignments(assignments)
             await AssignMessage.edit(embed = TWembed)
 
