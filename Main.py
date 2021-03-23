@@ -26,7 +26,7 @@ async def on_ready():
 
 @bot.command(name='version')
 async def version(ctx):
-    await ctx.send("TEST 0.0.0.1 - Running from Js Mac")
+    await ctx.send(f"{version} - Running from {user}")
 
 @bot.command(name='chargear', help='Get the gear need for each level', category = 'Search') #define the chargear command
 async def chargear(ctx, tier, *charInput): #takes two arguments: One called tier and one that will contain any number of words after the tier as charInput
