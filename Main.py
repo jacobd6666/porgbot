@@ -11,6 +11,7 @@ from Char_Gear import *
 
 import pandas as pd
 import numpy as np
+from collections import Counter
 
 #initialize the bot
 intents = discord.Intents.default()
@@ -25,7 +26,7 @@ async def on_ready():
 
 @bot.command(name='version')
 async def version(ctx):
-    await ctx.send("TEST 0.0.0.1 - Running from GuruGuy's RaspPi")
+    await ctx.send("TEST 0.0.0.1 - Running from Js Mac")
 
 @bot.command(name='chargear', help='Get the gear need for each level', category = 'Search') #define the chargear command
 async def chargear(ctx, tier, *charInput): #takes two arguments: One called tier and one that will contain any number of words after the tier as charInput
@@ -85,17 +86,37 @@ async def gearloc(ctx, *gearInput): #this time just one argument, the gear they'
 
     await ctx.send(embed=embedVar) 
 
-def generateAssignments(assignemnts):
+def generateAssignments(assignments):
     TWembed = discord.Embed(title = "Assignments - React to this when you have filled your assignments", color = 0x2F3136)
-    for name, value in assignments.items():
-        TWembed.add_field(name = f"{name}: {'✅' if value['assigned'] else '❌'}", value = value["teams"], inline = False)
+    counts = count_assignments(assignments)
+    zones = ["1A", "1B", "2B"]
+    for zone in zones:
+        TWembed.add_field(name = "-"*25 + zone + "-"*25 , value = f"Open if there are less than {max_teams-counts[zone]} teams placed", inline = False)
+        for name, value in assignments.items():
+            teams = value["teams"]
+            if zone in teams:
+                TWembed.add_field(name = f"{name}: {'✅' if value['assigned'] else '❌'}", value = ", ".join(teams[zone]), inline = False)
+
     return TWembed
 
+def count_assignments(assignments):
+    counter = Counter()
+    for _, value in assignments.items(): 
+        if not value["assigned"]:
+            for zone, teams in value["teams"].items():
+                counter[zone] += len(teams)
+    return counter
+
 @bot.command(name='twstart', help='show the TW assignment list', category = 'Assignments')
-@commands.has_role(730466266896269406) #checks if the user has the Porg Lords Officer role. If not, the command doesn't run
-async def test(ctx):
+# @commands.has_role(730466266896269406) #checks if the user has the Porg Lords Officer role. If not, the command doesn't run
+async def twstart(ctx, *teams):
     global assignments
     global AssignMessage
+    global max_teams
+    if teams:
+        max_teams = int(teams[0])
+    else:
+        max_teams = 22
     with open("assignments.json", "r") as fp:
         global assignments 
         assignments = json.load(fp)
@@ -119,7 +140,7 @@ async def on_raw_reaction_add(payload):
                     break
             TWembed = generateAssignments(assignments)
             await AssignMessage.edit(embed = TWembed)
-
+@bot.event
 async def on_raw_reaction_remove(payload):
     global AssignMessage
     global assignments
