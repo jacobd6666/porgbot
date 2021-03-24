@@ -113,9 +113,10 @@ async def twstart(ctx, *args):
         await clear(ctx)
     if len(args) > 0:
         max_teams = int(args[0])
+
     else:
         max_teams = 22
-    if len(args) > 1:
+    if len(args) > 0:
         try:
             with open("DATA/tw-state.json", "r") as fp:
                 assignments = json.load(fp)
