@@ -24,6 +24,12 @@ bot = commands.Bot(command_prefix = commands.when_mentioned_or(prefix), intents=
 async def on_ready():
     print(f'Logged in as {bot.user}')
 
+
+@bot.command(name='clear', help='clear channel')
+@commands.has_any_role("Porg Lords Officer", "Master Codebreaker")
+async def clear(ctx):
+    await ctx.channel.purge()
+
 @bot.command(name='version')
 async def version(ctx):
     await ctx.send(f"{version} - Running from {user}")
@@ -98,17 +104,19 @@ def count_assignments(assignments):
     return counter
 
 @bot.command(name='twstart', help='show the TW assignment list', category = 'Assignments')
-@commands.has_any_role("Porg Lords Officer", "Master Codebreaker") #checks if the user has the Porg Lords Officer role or Master Codebreaker. If not, the command doesn't run
-async def twstart(ctx, teams=None):
-
+@commands.has_any_role("Porg Lords Officer", "Master Codebreaker") #checks if the user has the Porg Lords Officer role. If not, the command doesn't run
+async def twstart(ctx, *args):
     global assignments
     global AssignMessage
     global max_teams
-    if teams != None:
-        max_teams = int(teams)
+    if ctx.channel.name == "porg-lords-tw-assignments" or ctx.channel.name == "thanos-snap":
+        await clear(ctx)
+    if len(args) > 0:
+        max_teams = int(args[0])
+
     else:
         max_teams = 22
-    if teams != None:
+    if len(args) > 1:
         try:
             with open("DATA/tw-state.json", "r") as fp:
                 assignments = json.load(fp)
