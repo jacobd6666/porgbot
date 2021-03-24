@@ -99,16 +99,16 @@ def count_assignments(assignments):
 
 @bot.command(name='twstart', help='show the TW assignment list', category = 'Assignments')
 @commands.has_any_role("Porg Lords Officer", "Master Codebreaker") #checks if the user has the Porg Lords Officer role or Master Codebreaker. If not, the command doesn't run
-async def twstart(ctx, *teams):
+async def twstart(ctx, teams=None):
 
     global assignments
     global AssignMessage
     global max_teams
-    if len(args) > 0:
-        max_teams = int(args[0])
+    if teams != None:
+        max_teams = int(teams)
     else:
         max_teams = 22
-    if len(args) > 1:
+    if teams != None:
         try:
             with open("DATA/tw-state.json", "r") as fp:
                 assignments = json.load(fp)
