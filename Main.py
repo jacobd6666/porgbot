@@ -3,15 +3,18 @@ import discord
 from discord.ext import commands
 from discord.utils import get
 import json
+import pandas as pd
+import numpy as np
+from collections import Counter
+from googlesearch import search
+import requests
+from bs4 import BeautifulSoup
 
 #importing other functions
 from config import *
 from Gear_Find import *
 from Char_Gear import *
-
-import pandas as pd
-import numpy as np
-from collections import Counter
+from ggsearchFunction import *
 
 #initialize the bot
 intents = discord.Intents.default()
@@ -183,4 +186,13 @@ async def question(ctx, *, text : str):
     destination = bot.get_channel(815619171362275329)
     await destination.send(f"From {ctx.author.name}: {text}")
 
+@bot.command(name = 'guildsearch')
+async def guildsearch(ctx, *guildInput):
+    guildName = ' '.join(guildInput)
+    await ctx.send(f'Searching for {guildName}')
+    allycode = find(guildName)
+    await ctx.send(f"Allycode: {allycode}")
+    await ctx.send("Command to copy: ")
+    await ctx.send(f",tw 197299395 {allycode}")
+    
 bot.run(Token) #start the bot
