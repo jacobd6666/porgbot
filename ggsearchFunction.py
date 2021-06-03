@@ -3,7 +3,6 @@ import requests
 from bs4 import BeautifulSoup
 
 def find(guildName):
-    #guildName = input("Guild name: ")
     for url in search(f'\"{guildName}\" site:swgoh.gg', num_results=20):
         if url[17] != "g" and url.find("/") != 6:
             continue
