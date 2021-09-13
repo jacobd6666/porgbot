@@ -21,8 +21,9 @@ def find(guildName):
     else:
         print("No Guilds found")
 
+#takes a character and finds their name, image url, 6 pieces of gear for the supplied tier, and alignment
 def search_gear(name, num):
-    with open("characters.json") as f:
+    with open("DATA\characters.json") as f:
         characters = json.load(f)
     results = []
     for unit in characters:
@@ -36,24 +37,27 @@ def search_gear(name, num):
             results.append(unit["alignment"])
     return results
 
+#turns the base_id of a piece of gear into that piece's name
 def name_gear(gear_number):
-    with open('gear.json') as f:
+    with open('DATA\gear.json') as f:
         gear = json.load(f)
 
     for piece in gear:
         if piece["base_id"] == gear_number:
             return piece["name"]
 
+#takes a character's nickname and turns it into the Base_id of that character
 def get_true_name(nameIn):
-    with open("nicknames.csv") as csv_file:
+    with open("DATA\nicknames.csv") as csv_file:
         nicknames = csv.reader(csv_file, delimiter=",")
         for row in nicknames:
             if str(row[1]) == str(nameIn):
                 return row[0]
         return None
 
+#takes a character's base_id and turns it into the character's name, as used in game
 def get_char_name(nameIn):
-    with open("characters.json") as f:
+    with open("DATA\characters.json") as f:
         characters = json.load(f)
     for character in characters:
         if character["base_id"] == nameIn:
