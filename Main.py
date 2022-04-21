@@ -3,9 +3,6 @@ import discord
 from discord.ext import commands
 from discord.utils import get
 import json
-import pandas as pd
-import numpy as np
-from collections import Counter
 from googlesearch import search
 import requests
 from bs4 import BeautifulSoup
@@ -14,7 +11,7 @@ from bs4 import BeautifulSoup
 from config import *
 from Gear_Find import *
 from Char_Gear import *
-from ggsearchFunction import *
+from functions import *
 
 #initialize the bot
 intents = discord.Intents.default()
@@ -37,55 +34,54 @@ async def clear(ctx):
 async def version(ctx):
     await ctx.send(f"{version} - Running from {user}")
 
-@bot.command(name='chargear', help='Get the gear need for each level', category = 'Search') #define the chargear command
-async def chargear(ctx, tier, *charInput): #takes two arguments: One called tier and one that will contain any number of words after the tier as charInput
-
-    gear = join_gear_char("DATA/gear_levels.csv", "DATA/nicknames.csv")
-    char = '-'.join(charInput).lower() #takes the character input, turns it into one string with hypens instead of spaces, and makes it all lowercase
-    print(char) #print to console for debugging purposes
-    idx = gear["NICKNAME"] == char # List of bools where true is at an index when the condition is satisfied
-
-    if np.sum(idx) == 0: # No one is found
-        await ctx.send("Character name not recognized")
+@bot.command(name = "chargear")
+async def chargear(ctx, tier, *charInput):
+    char = ''.join(charInput).upper() #This usually turns the character input into the correct format, like: "aayla secura" > "AAYLASECURA" but doesn't work for some
+    char_true_name = get_true_name(char)
+    if char_true_name == None:
+        await ctx.send("Character not found.")
     else:
-        toon_data = gear[idx]
-        print(toon_data)
-        embedVar = discord.Embed(title=f"{toon_data.iloc[0]['TOON'].replace('-',' ').title() }'s gear", color=0x00ff00)#create an embed object
-        if (tier.count('-')==1): #check to see if the given tier includes a hyphen to denote a range of tiers
+        if tier.upper() == "ALL":
+            results = search_gear(char_true_name, 1)
+            if results[8] == "Dark Side":
+                embedVar = discord.Embed(title = get_char_name(char_true_name), color = 16515843)
+            else:
+                embedVar = discord.Embed(title = get_char_name(char_true_name), color = 209148)
+            for i in range(1, 13):
+                results = search_gear(char_true_name, i)
+                embedVar.add_field(name =  f"Tier {i}:", value = f"{results[2]}\n{results[3]}\n{results[4]}\n{results[5]}\n{results[6]}\n{results[7]}", inline = False)
+            thumb_url = results[1]
+            embedVar.set_thumbnail(url = thumb_url)
+            await ctx.send(embed = embedVar)
+        elif (tier.count('-')==1): #check to see if the given tier includes a hyphen to denote a range of tiers
             x = tier.split('-') #if so, split it into the two values given
             first = int(x[0]) #isolate the first value
             last = int(x[1]) + 1 #isolate the second. Increasing it by one proved to be necessary for the function to work as expected
-        elif tier.lower() == "all":
-            first = 1
-            last = 13
+            results = search_gear(char_true_name, 1)
+            if results[8] == "Dark Side":
+                embedVar = discord.Embed(title = get_char_name(char_true_name), color = 16515843)
+            else:
+                embedVar = discord.Embed(title = get_char_name(char_true_name), color = 209148)
+            for i in range(first, last):
+                results = search_gear(char_true_name, i)
+                embedVar.add_field(name =  f"Tier {i}:", value = f"{results[2]}\n{results[3]}\n{results[4]}\n{results[5]}\n{results[6]}\n{results[7]}", inline = False)
+            thumb_url = results[1]
+            embedVar.set_thumbnail(url = thumb_url)
+            await ctx.send(embed = embedVar)
+        elif tier.isdigit():
+            results = search_gear(char_true_name, tier)
+            if results[8] == "Dark Side":
+                embedVar = discord.Embed(title = f"{results[0]}", color = 16515843)
+            else:
+                embedVar = discord.Embed(title = f"{results[0]}", color = 209148)
+            embedVar.add_field(name =  f"Tier {tier}:", value = f"{results[2]}\n{results[3]}\n{results[4]}\n{results[5]}\n{results[6]}\n{results[7]}", inline = False)
+            thumb_url = results[1]
+            embedVar.set_thumbnail(url = thumb_url)
+            await ctx.send(embed = embedVar)
         else:
-            first = int(tier)
-            last = first + 1
-        for i in range(first, last): #for the range of the two supplied numbers
-            gearReturn = find_gear(toon_data, i) #get gear for every tier 
-            embedVar.add_field(name=f"Gear Tier {i}", value = gearReturn) #add a field to the embed with the contents of that gear tier
+            await ctx.send("ERROR: Please enter a number, a range of numbers separated by a hyphen, or 'all'")
 
-        await ctx.send(embed=embedVar) #once the loop is complete, send the embed in the same channel that the command was used in
-        
-@bot.command(name='gearloc', help='Get the loc for toon/gear', category = 'Search')
-async def gearloc(ctx, *gearInput): #this time just one argument, the gear they're after. The * before it means that any number of words in the message after the command will be taken as input
-
-    gearloc = findGear('DATA/gear_locations.csv','DATA/nicknames.csv')
-    gearName = '-'.join(gearInput).lower()
-    print(gearName)
-    idx = gearloc["NICKNAME"] == gearName
-    if np.sum(idx) == 0: # No one is found
-        await ctx.send("Character name not recognized")
-    else:
-        gear_data = gearloc[idx]
-        embedVar = discord.Embed(title=f"{gear_data.iloc[0]['NICKNAME'].replace('-',' ').title() } farmable locations", color=0x00ff00) #create an embed object
-        print(gear_data)
-    locations = ''
-    for index, row in gear_data.iterrows():
-        locations += row['LOCATION'] + "\n"
-    embedVar.add_field(name = 'Locations', value = locations)
-    await ctx.send(embed=embedVar) 
-
+#sends an identical DM to any number of supplied discord users
 @bot.command(name = 'dm')
 @commands.has_role(730466266896269406) #can only be used by someone with the porg lords officer role
 async def dm(ctx, message, *people): #if you type something in quotes when you run a command, it treats the entire quote as a single argument
