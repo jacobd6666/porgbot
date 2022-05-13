@@ -106,3 +106,21 @@ def add_nickname(char, nickname):
             writer.writerow([char_true_name, nickname.upper()])
             return "Nickname added to records"
         return "Character alias not found in existing nicknames"
+
+# helper function that loads the gear.json file into python
+def load_gear():
+    script_dir = path.dirname(__file__)
+    file_path = path.join(script_dir, 'DATA/gear.json')
+
+    with open(file_path, 'r', encoding="utf-8") as f:
+        gear_list = json.load(f)
+    return gear_list
+
+# helper function that loads the characters.json file into python
+def load_chars():
+    script_dir = path.dirname(__file__)
+    file_path = path.join(script_dir, 'DATA/characters.json')
+
+    with open(file_path, 'r') as f:
+        chars = json.load(f)
+    return chars
