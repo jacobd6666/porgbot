@@ -1,6 +1,7 @@
 from googlesearch import search
 import requests
 from bs4 import BeautifulSoup
+from os import path
 import json
 import csv
 
@@ -62,3 +63,46 @@ def get_char_name(nameIn):
     for character in characters:
         if character["base_id"] == nameIn:
             return character["name"]
+
+# update characters.json file
+def update_char_json():
+    response = requests.request('GET', 'http://api.swgoh.gg/characters/')
+    char_list = response.json()
+    script_dir = path.dirname(__file__)
+    file_path = path.join(script_dir, 'DATA/characters.json')
+    f = open(file_path, "w")
+    f.write(json.dumps(char_list, sort_keys=True, indent=4))
+    f.close()
+
+# update gear.json file 
+def update_gear_json():
+    r = requests.request('GET', 'http://api.swgoh.gg/gear/')
+    gear_list = r.json()
+    script_dir = path.dirname(__file__)
+    file_path = path.join(script_dir, 'DATA/gear.json')
+    f = open(file_path, "w")
+    f.write(json.dumps(gear_list, sort_keys=True, indent=4))
+    f.close()
+
+#  helper function that adds new nicknames for a specific character
+#  takes a character's name and a nickname
+#  returns a string that says if the nickname was added or not
+def add_nickname(char, nickname):
+    char_true_name = get_true_name(char.upper())
+
+    script_dir = path.dirname(__file__)
+    file_path = path.join(script_dir, 'DATA/nicknames.csv')
+
+    with open(file_path, 'r+') as f:
+        reader = csv.reader(f)
+        alias_exists = False
+        for row in reader:
+            if str(row[0]) == char_true_name:
+                if str(row[1]) == nickname.upper():
+                    return "Nickname already exists"
+                alias_exists = True
+        if alias_exists:
+            writer = csv.writer(f)
+            writer.writerow([char_true_name, nickname.upper()])
+            return "Nickname added to records"
+        return "Character alias not found in existing nicknames"
