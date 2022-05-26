@@ -105,4 +105,54 @@ def add_nickname(char, nickname):
             writer = csv.writer(f)
             writer.writerow([char_true_name, nickname.upper()])
             return "Nickname added to records"
+<<<<<<< Updated upstream
         return "Character alias not found in existing nicknames"
+=======
+        return "Character alias not found in existing nicknames"
+
+# helper function that loads the gear.json file into python
+def load_gear():
+    script_dir = path.dirname(__file__)
+    file_path = path.join(script_dir, 'DATA/gear.json')
+
+    with open(file_path, 'r', encoding="utf-8") as f:
+        gear_list = json.load(f)
+    return gear_list
+
+# helper function that loads the characters.json file into python
+def load_chars():
+    script_dir = path.dirname(__file__)
+    file_path = path.join(script_dir, 'DATA/characters.json')
+
+    with open(file_path, 'r') as f:
+        chars = json.load(f)
+    return chars
+
+def get_ingredient_list(tiers, *charInput):
+    gear_list = load_gear()
+    char_list = load_chars()
+
+    char = ''.join(charInput).upper()
+    char_true_name = get_true_name(char)
+
+    if char_true_name == None:
+        print('Char not found')
+        return
+    else:
+        for char in char_list:
+            if char["base_id"] == char_true_name:
+                charObject = char
+
+    char_full_gear = charObject["gear_levels"]
+    char_gear_dict = {}
+    for tier in char_full_gear:
+        for gear_piece in tier["gear"]:
+            if gear_piece in char_gear_dict:
+                char_gear_dict[gear_piece] += 1
+            else:
+                char_gear_dict[gear_piece] = 1
+        if "9999" in char_gear_dict:
+            char_gear_dict.pop("9999")
+    print(char_gear_dict)
+    print(gear_list)
+>>>>>>> Stashed changes
