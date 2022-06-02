@@ -1,7 +1,10 @@
-Token = "censored"
-prefix = '+'
-user = ""
-version = ""
+import os
+
+TOKEN = os.environ['BOT_TOKEN']
+MASTER_CODEBREAKER = 813792733415079987
+
+SWGOHAPIUSERNAME = os.environ['swgoh_api_username']
+SWGOHAPIPASSWORD = os.environ['swgoh_api_password']
 
 # Colour references
 GREY=0xb7c8d3

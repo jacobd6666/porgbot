@@ -3,6 +3,7 @@ import lightbulb
 
 from config import *
 from functions import *
+from keep_alive import keep_alive
 
 # Initialize the bot
 bot = lightbulb.BotApp(token=TOKEN)
@@ -16,7 +17,7 @@ async def on_start(event):
 # Command for updating the local json files
 # -----------------------------------------------------------------------------
 @bot.command
-@lightbulb.add_checks(lightbulb.has_roles(ADMIN_ROLE))  # ADMIN_ROLE, botadmins etc. mode=all or mode=any
+@lightbulb.add_checks(lightbulb.has_roles(MASTER_CODEBREAKER))  # mode=all or mode=any
 @lightbulb.command(name='updatejsons', description='Update all data files')
 @lightbulb.implements(lightbulb.SlashCommand)
 async def update_all(ctx):
@@ -224,5 +225,5 @@ async def get_relic_mats(ctx):
 
     await ctx.respond(embed=embedVar)
 
-
+keep_alive()
 bot.run()
