@@ -35,3 +35,5 @@ This bot is being developed by jacobd6666#1586 and Cpt_Broon#9223 for private us
 
 Hikari documentation can be found at https://www.hikari-py.dev 
 Lightbulb for hikari doucmentation can be found at https://hikari-lightbulb.readthedocs.io/en/latest/index.html
+
+blahblah
