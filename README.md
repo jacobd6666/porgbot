@@ -31,9 +31,7 @@ This is the Porg Bot. Default ReadMe stuff I guess
 
 ## Help
 
-This bot is being developed by jacobd6666#1586 and Cpt_Broon#9223 for private use by our Discord server.
+This bot is being developed by jacobd6666#1586 and Cpt_Broon#9223 for private use by our Discord server, with help from the Master Codebreakers on the server. Join the server if you have issues: https://discord.gg/6ggex3mvme.
 
 Hikari documentation can be found at https://www.hikari-py.dev 
 Lightbulb for hikari doucmentation can be found at https://hikari-lightbulb.readthedocs.io/en/latest/index.html
-
-blahblah

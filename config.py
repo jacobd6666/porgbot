@@ -1,7 +1,7 @@
 import os
 
 TOKEN = os.environ['BOT_TOKEN']
-MASTER_CODEBREAKER = 813792733415079987
+MASTER_CODEBREAKER = int(os.environ['master_codebreaker'])
 
 SWGOHAPIUSERNAME = os.environ['swgoh_api_username']
 SWGOHAPIPASSWORD = os.environ['swgoh_api_password']
